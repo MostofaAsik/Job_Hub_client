@@ -4,6 +4,7 @@ import registerAnimation from '../../assets/lottie/resgister.json';
 import useAuth from './../../hooks/useAuth';
 import { toast, Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import SocialLogin from '../shared/SocialLogin';
 
 const SignIn = () => {
     const { createSignIn } = useAuth();
@@ -80,6 +81,10 @@ const SignIn = () => {
                                 <button type="submit" className="btn btn-neutral mt-4">Sign In</button>
                             </fieldset>
                         </form>
+                        {/* Google login button */}
+                        <div className="mt-4">
+                            <SocialLogin />
+                        </div>
                     </div>
                 </div>
             </div>

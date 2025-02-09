@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import registerAnimation from '../../assets/lottie/resgister.json';
 import useAuth from './../../hooks/useAuth';
 import { toast, Toaster } from 'react-hot-toast';
+import { FaGoogle } from 'react-icons/fa'; // Google icon from react-icons
+import SocialLogin from '../shared/SocialLogin';
 
 const Register = () => {
-    const { createUser } = useAuth()
+    const { createUser } = useAuth();  // Assuming signInWithGoogle is defined in useAuth hook
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -30,7 +32,7 @@ const Register = () => {
             setError('Password must contain at least one uppercase letter, one lowercase letter, one number, and be at least 6 characters long.');
             return;
         }
-        //create user
+        // Create user
         createUser(formData.email, formData.password)
             .then((result) => {
                 toast.success('User created successfully!');
@@ -42,6 +44,8 @@ const Register = () => {
                 setError(error.message);
             });
     };
+
+
 
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -89,6 +93,11 @@ const Register = () => {
                                 <button type="submit" className="btn btn-neutral mt-4">Register</button>
                             </fieldset>
                         </form>
+
+                        {/* Google login button */}
+                        <div className="mt-4">
+                            <SocialLogin />
+                        </div>
                     </div>
                 </div>
             </div>
