@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
+    const { user, signOutUser } = useAuth()
 
     const links = <>
         <li><a>Item 1</a></li>
@@ -28,9 +30,20 @@ const Navbar = () => {
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <Link to="/register" className="btn">Register</Link>
-                <a className="btn">Sign In</a>
+            <div className="navbar-end gap-2">
+                {
+                    user ?
+                        <>
+                            <button
+                                onClick={() => signOutUser()}
+                                className="btn btn-primary">Log Out</button>
+                        </> :
+                        <>
+                            <Link to="/register" className="btn">Register</Link>
+                            <Link to="/login" className="btn btn-primary">Login</Link>
+                        </>
+                }
+
             </div>
         </div>
     );

@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
         createSignIn,
         signOutUser,
         goooleLogin,
-        updateUserProfile
+
     }
 
     return (

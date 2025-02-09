@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import registerAnimation from '../../assets/lottie/resgister.json';
 import useAuth from './../../hooks/useAuth';
 import { toast, Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-    const { createUser } = useAuth()
+const SignIn = () => {
+    const { createSignIn } = useAuth();
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
         password: ''
     });
@@ -17,28 +18,26 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const validatePassword = (password) => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-        return regex.test(password);
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         setError('');
 
-        if (!validatePassword(formData.password)) {
-            setError('Password must contain at least one uppercase letter, one lowercase letter, one number, and be at least 6 characters long.');
+        if (formData.password.length < 6) {
+            setError('Password must be at least 6 characters long.');
             return;
         }
-        //create user
-        createUser(formData.email, formData.password)
+
+        createSignIn(formData.email, formData.password)
             .then((result) => {
-                toast.success('User created successfully!');
-                console.log('User created successfully:', result.user);
+                toast.success('User signed in successfully!');
+                console.log('User signed in successfully:', result.user);
+                setTimeout(() => {
+                    navigate('/')
+                }, 3000)
             })
             .catch((error) => {
-                toast.error('Error creating user: ' + error.message);
-                console.error('Error creating user:', error);
+                toast.error('Error signing in: ' + error.message);
+                console.error('Error signing in:', error);
                 setError(error.message);
             });
     };
@@ -50,20 +49,10 @@ const Register = () => {
                     <Lottie animationData={registerAnimation} loop={true} />
                 </div>
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                    <h1 className="text-center text-3xl font-bold mb-4 mt-2">Register now!</h1>
+                    <h1 className="text-center text-3xl font-bold mb-4 mt-2">Sign In</h1>
                     <div className="card-body">
                         <form onSubmit={handleSubmit}>
                             <fieldset className="fieldset">
-                                <label className="fieldset-label">Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    className="input"
-                                    placeholder="Name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
                                 <label className="fieldset-label">Email</label>
                                 <input
                                     type="email"
@@ -85,8 +74,10 @@ const Register = () => {
                                     required
                                 />
                                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-
-                                <button type="submit" className="btn btn-neutral mt-4">Register</button>
+                                <div>
+                                    <a className="link link-hover">Forgot password?</a>
+                                </div>
+                                <button type="submit" className="btn btn-neutral mt-4">Sign In</button>
                             </fieldset>
                         </form>
                     </div>
@@ -97,4 +88,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default SignIn;
