@@ -6,8 +6,8 @@ const Navbar = () => {
     const { user, signOutUser } = useAuth()
 
     const links = <>
-        <li><a>Item 1</a></li>
-        <li><a>Item 3</a></li>
+        <li><Link to="/">Home</Link></li>
+
     </>
 
     return (
@@ -23,7 +23,7 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">Job Hub</a>
+                <Link to="/" className="text-2xl font-bold">Job Hub</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
