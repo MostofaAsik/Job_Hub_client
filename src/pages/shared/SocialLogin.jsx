@@ -1,21 +1,23 @@
 import React from 'react';
 import useAuth from '../../hooks/useAuth';
 import { FaGoogle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 
 const SocialLogin = () => {
     const { goooleLogin } = useAuth()
     const navigate = useNavigate()
+    const location = useLocation();
+    const from = location.state || '/';
     const handleGoogleLogin = () => {
         goooleLogin()
             .then((result) => {
                 toast.success('Logged in with Google!');
 
                 console.log('Google login success:', result.user);
-                setTimeout(() => {
-                    navigate('/')
-                }, 1000)
+
+                navigate(from)
+
             })
             .catch((error) => {
                 toast.error('Google login failed: ' + error.message);

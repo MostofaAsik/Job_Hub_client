@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 import registerAnimation from '../../assets/lottie/resgister.json';
 import useAuth from './../../hooks/useAuth';
 import { toast, Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../shared/SocialLogin';
 
 const SignIn = () => {
     const { createSignIn } = useAuth();
     const navigate = useNavigate()
+    const location = useLocation();
+    const from = location.state || '/';
+    console.log(location);
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -32,9 +36,7 @@ const SignIn = () => {
             .then((result) => {
                 toast.success('User signed in successfully!');
                 console.log('User signed in successfully:', result.user);
-                setTimeout(() => {
-                    navigate('/')
-                }, 3000)
+                navigate(from);
             })
             .catch((error) => {
                 toast.error('Error signing in: ' + error.message);

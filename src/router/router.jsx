@@ -7,6 +7,7 @@ import Home from "../pages/Home/Home";
 import Register from "../pages/auth/Register";
 import SignIn from "../pages/auth/SignIn";
 import JobDetails from "../components/JobDetails";
+import PrivateRouter from "./PrivateRouter";
 
 
 const router = createBrowserRouter([
@@ -28,7 +29,9 @@ const router = createBrowserRouter([
             },
             {
                 path: "/jobs/:id",
-                element: <JobDetails />,
+                element: <PrivateRouter>
+                    <JobDetails />
+                </PrivateRouter>,
                 loader: ({ params }) => fetch(`http://localhost:3000/jobs/${params.id}`)
             }
         ]
