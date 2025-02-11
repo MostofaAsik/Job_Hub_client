@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { FaChevronDown, FaChevronUp, FaEnvelope } from "react-icons/fa";
 
 const JobDetails = () => {
@@ -85,12 +85,13 @@ const JobDetails = () => {
 
                 {/* Apply Now Button */}
                 <div className="mt-6">
-                    <a
-                        href={`mailto:${job.hr_email}?subject=Application for ${job.title}`}
-                        className="block text-center text-white bg-blue-500 hover:bg-blue-700 py-3 rounded-md font-medium text-lg"
-                    >
-                        Apply Now
-                    </a>
+                    <Link to={`/jobapply/${job._id}`}>
+                        <p
+                            className="block text-center text-white bg-blue-500 hover:bg-blue-700 py-3 rounded-md font-medium text-lg"
+                        >
+                            Apply Now
+                        </p>
+                    </Link>
                 </div>
             </div>
         </section>
