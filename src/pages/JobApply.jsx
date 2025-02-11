@@ -31,7 +31,7 @@ const JobApply = () => {
         axios.post(`${import.meta.env.VITE_BASE_URL}/application-job`, applicationJob)
             .then(() => {
                 toast.success("Job application submitted successfully!");
-                navigate('/')
+                navigate('/myapplications')
             })
             .catch((error) => {
                 toast.error("Failed to submit job application. Please try again later.");
