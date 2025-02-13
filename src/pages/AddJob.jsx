@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import useAuth from './../hooks/useAuth';
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddJob = () => {
+    const { user } = useAuth()
     const [formData, setFormData] = useState({
         title: "",
         location: "",
@@ -10,7 +14,7 @@ const AddJob = () => {
         salaryRange: { min: "", max: "", currency: "bdt" },
         description: "",
         company: "",
-        hr_email: "",
+        hr_email: user?.email || "",
         hr_name: "",
         company_logo: "",
         requirements: [],
@@ -62,7 +66,15 @@ const AddJob = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Form Data:", formData);
-        // You can now send formData to an API using axios
+        axios.post(`${import.meta.env.VITE_BASE_URL}/jobs`, formData)
+            .then((res) => {
+                console.log("Job added successfully", res.data);
+                toast.success("Job added successfully");
+            })
+            .catch((err) => {
+                console.error("Error adding job", err);
+                toast.success("Error adding job");
+            });
     };
 
     return (
@@ -185,6 +197,7 @@ const AddJob = () => {
                 {/* Submit Button */}
                 <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md">Submit Job</button>
             </form>
+            <Toaster />
         </div>
     );
 };
