@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import useAuth from './../hooks/useAuth';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddJob = () => {
     const { user } = useAuth()
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         title: "",
         location: "",
@@ -70,6 +72,7 @@ const AddJob = () => {
             .then((res) => {
                 console.log("Job added successfully", res.data);
                 toast.success("Job added successfully");
+                navigate("/mypostedjobs");
             })
             .catch((err) => {
                 console.error("Error adding job", err);

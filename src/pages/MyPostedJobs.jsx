@@ -1,40 +1,25 @@
-import React, { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import axios from "axios";
-import { FaTrash } from "react-icons/fa"; // Import delete icon
-import toast, { Toaster } from "react-hot-toast";
+import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
+import axios from 'axios';
+import { FaTrash } from 'react-icons/fa';
 
-const MyApplications = () => {
-    const { user } = useAuth();
-    const [jobs, setJobs] = useState([]);
 
+const MyPostedJobs = () => {
+    const { user } = useAuth()
+    const [jobs, setJobs] = useState([])
     useEffect(() => {
-        axios
-            .get(`${import.meta.env.VITE_BASE_URL}/application-job?email=${user?.email}`)
+        axios.get(`${import.meta.env.VITE_BASE_URL}/jobs?email=${user?.email}`)
             .then((response) => {
-                setJobs(response.data);
+                setJobs(response.data)
             })
             .catch((error) => {
-                console.error(error);
-            });
-    }, [user?.email]);
-
-    const handleDelete = (id) => {
-        axios
-            .delete(`${import.meta.env.VITE_BASE_URL}/application-job/${id}`)
-            .then(() => {
-                setJobs(jobs.filter((job) => job._id !== id));
-                toast.success("Job application deleted successfully!");
+                console.error(error)
             })
-            .catch((error) => {
-                console.error("Error deleting job:", error);
-            });
-    };
+    }, [user?.email])
 
     return (
-        <div className="p-4 bg-white shadow-lg rounded-lg">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">📋 My Job Applications</h2>
-
+        <div>
+            <h2>My Posted Job</h2>
             {jobs.length === 0 ? (
                 <p className="text-gray-500 text-center">No jobs available.</p>
             ) : (
@@ -42,9 +27,9 @@ const MyApplications = () => {
                     <table className="w-full border-collapse">
                         <thead>
                             <tr className="bg-gray-200 text-gray-700 uppercase text-sm">
-                                <th className="py-3 px-4 text-left">Company</th>
-                                <th className="py-3 px-4 text-left hidden md:table-cell">Job Title</th>
-                                <th className="py-3 px-4 text-left hidden md:table-cell">Location</th>
+                                <th className="py-3 px-4 text-left">Title</th>
+                                <th className="py-3 px-4 text-left hidden md:table-cell">Deadline</th>
+                                <th className="py-3 px-4 text-left hidden md:table-cell">Applicant Count</th>
                                 <th className="py-3 px-4 text-center">Action</th>
                             </tr>
                         </thead>
@@ -58,11 +43,11 @@ const MyApplications = () => {
                                             alt={job.company}
                                             className="w-8 h-8 rounded-full mr-2"
                                         />
-                                        <span className="font-medium text-sm md:text-base">{job.company}</span>
+                                        <span className="font-medium text-sm md:text-base">{job.title}</span>
                                     </td>
                                     {/* 📌 Hide Columns on Mobile */}
-                                    <td className="py-3 px-4 hidden md:table-cell">{job.title}</td>
-                                    <td className="py-3 px-4 hidden md:table-cell">{job.location}</td>
+                                    <td className="py-3 px-4 hidden md:table-cell">{job.applicationDeadline}</td>
+                                    <td className="py-3 px-4 hidden md:table-cell">{job.applicantion_count}</td>
                                     {/* 📌 Delete Button → Icon on Mobile, Full Button on Desktop */}
                                     <td className="py-3 px-4 text-center">
                                         <button
@@ -79,9 +64,8 @@ const MyApplications = () => {
                     </table>
                 </div>
             )}
-            <Toaster />
         </div>
     );
 };
 
-export default MyApplications;
+export default MyPostedJobs;
