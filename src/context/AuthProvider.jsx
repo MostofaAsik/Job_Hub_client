@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 import auth from '../firebase/firebase.config';
+import axios from 'axios';
 
 
 
@@ -57,8 +58,27 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, (curentUser) => {
             console.log('current user from authProvider', curentUser);
             setUser(curentUser)
-            setLoading(false)
 
+            //set token in cookie
+            if (curentUser) {
+                const user = { email: curentUser?.email }
+                axios.post(`${import.meta.env.VITE_BASE_URL}/jwt`, user, { withCredentials: true })
+                    .then((response) => {
+                        console.log('set token', response.data);
+                        setLoading(false)
+
+                    })
+
+            }
+            // remove token from cookie
+            else {
+                axios.post(`${import.meta.env.VITE_BASE_URL}/logout`, {}, { withCredentials: true })
+                    .then((response) => {
+                        console.log('remove token', response.data);
+                        setLoading(false)
+
+                    })
+            }
         });
         return () => {
             unSubscribe();

@@ -6,12 +6,12 @@ import { toast, Toaster } from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../shared/SocialLogin';
 
+
 const SignIn = () => {
     const { createSignIn } = useAuth();
     const navigate = useNavigate()
     const location = useLocation();
     const from = location.state || '/';
-    console.log(location);
 
     const [formData, setFormData] = useState({
         email: '',
@@ -35,7 +35,10 @@ const SignIn = () => {
         createSignIn(formData.email, formData.password)
             .then((result) => {
                 toast.success('User signed in successfully!');
-                console.log('User signed in successfully:', result.user);
+                console.log('User signed in successfully:', result.user?.email);
+
+
+
                 navigate(from);
             })
             .catch((error) => {

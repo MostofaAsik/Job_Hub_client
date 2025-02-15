@@ -10,7 +10,7 @@ const MyApplications = () => {
 
     useEffect(() => {
         axios
-            .get(`${import.meta.env.VITE_BASE_URL}/application-job?email=${user?.email}`)
+            .get(`${import.meta.env.VITE_BASE_URL}/application-job?email=${user?.email}`, { withCredentials: true })
             .then((response) => {
                 setJobs(response.data);
             })
