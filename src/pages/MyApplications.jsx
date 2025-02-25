@@ -3,20 +3,22 @@ import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa"; // Import delete icon
 import toast, { Toaster } from "react-hot-toast";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyApplications = () => {
     const { user } = useAuth();
     const [jobs, setJobs] = useState([]);
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axios
-            .get(`${import.meta.env.VITE_BASE_URL}/application-job?email=${user?.email}`, { withCredentials: true })
+        // axios.get(`${import.meta.env.VITE_BASE_URL}/application-job?email=${user?.email}`, { withCredentials: true })
+
+        // use here custom hooks useAxiosSecure
+        axiosSecure.get(`/application-job?email=${user?.email}`)
             .then((response) => {
                 setJobs(response.data);
             })
-            .catch((error) => {
-                console.error(error);
-            });
+
     }, [user?.email]);
 
     const handleDelete = (id) => {
